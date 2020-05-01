@@ -6,16 +6,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'add num1+num2'
+    return 'sub num1-num2'
 
 
-@app.route('/add')
-def Addition():
+@app.route('/sub')
+def Subtraction():
     num1=request.args.get('A',default = 0, type = Fraction)
     num2=request.args.get('B',default = 0, type = Fraction)
     num3= Fraction(num1)
     num4= Fraction(num2)
-    X=num3+num4
+    X=num3-num4
    
     Z = str(X).split('/')
     if len(Z) == 2:
