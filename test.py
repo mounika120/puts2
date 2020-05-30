@@ -1,27 +1,70 @@
 import main
 import unittest
 
-class CalculatorTesting(unittest.TestCase):
+class MyTestCase(unittest.TestCase):
 
-    def DivisionInteger(self):
-        num1=  self.app.get('/div?A=10&B=3')
-        self.assertEqual(b'3.3 \n', arg1.data)
-        self.assertNotEqual(b'7 \n',arg1.data)
-    def DivisionFloat(self):
-        num2=  self.app.get('/div?A=5.9&B=2.3')
-        self.assertEqual(b'2.56 \n', arg2.data)
-        self.assertNotEqual(b'6 \n',arg2.data)
-    def DivisionFraction(self):
-        num3=  self.app.get('/div?A=1/4&B=8/3')
-        self.assertEqual(b'0.093 \n', arg3.data)
-        self.assertNotEqual(b'1 \n',arg3.data)
-    def DivisionNegative(self):
-        num4=  self.app.get('/div?A=8&B=-2')
-        self.assertEqual(b'-4 \n', arg4.data)
-        self.assertNotEqual(b'4 \n',arg4.data)
-		
-    
-         
-         
+        def setUp(self):
+            main.app.testing = True
+            self.app = main.app.test_client()
+
+        def test_addint(self):
+            rv =  self.app.get('/add?A=2&B=5')
+            self.assertEqual(b'7.0', rv.data)
+            self.assertNotEqual(b'6.000',rv.data)
+        def test_addfloat(self):
+            rv =  self.app.get('/add?A=2.3&B=3.3')
+            self.assertEqual(b'5.6', rv.data)
+        def test_addfrac(self):
+            rv =  self.app.get('/add?A=2/3&B=3/3')
+            self.assertEqual(b'1.667', rv.data)
+        def test_addneg(self):
+            rv =  self.app.get('/add?A=2.3&B=-3.3')
+            self.assertEqual(b'-1.0', rv.data)
+
+        def test_subint(self):
+            rv =  self.app.get('/sub?A=2&B=5')
+            self.assertEqual(b'-3.0', rv.data)
+            self.assertNotEqual(b'6.000',rv.data)
+        def test_subfloat(self):
+            rv =  self.app.get('/sub?A=2.3&B=3.3')
+            self.assertEqual(b'-1.0', rv.data)
+        def test_subfrac(self):
+            rv =  self.app.get('/sub?A=2/3&B=3/3')
+            self.assertEqual(b'-0.333', rv.data)
+        def test_subneg(self):
+            rv =  self.app.get('/sub?A=2.3&B=-3.3')
+            self.assertEqual(b'5.6', rv.data)
+
+        def test_mulint(self):
+            rv =  self.app.get('/mul?A=2&B=5')
+            self.assertEqual(b'10.0', rv.data)
+            self.assertNotEqual(b'6.000',rv.data)
+        def test_mulfloat(self):
+            rv =  self.app.get('/mul?A=2.3&B=3.3')
+            self.assertEqual(b'7.59', rv.data)
+        def test_mulfrac(self):
+            rv =  self.app.get('/mul?A=2/3&B=3/3')
+            self.assertEqual(b'0.667', rv.data)
+        def test_mulneg(self):
+            rv =  self.app.get('/mul?A=2.3&B=-3.3')
+            self.assertEqual(b'-7.59', rv.data)
+
+        def test_divint(self):
+            rv =  self.app.get('/div?A=2&B=5')
+            self.assertEqual(b'0.4', rv.data)
+            self.assertNotEqual(b'0.0256',rv.data)
+        def test_divfloat(self):
+            rv =  self.app.get('/div?A=2.3&B=3.3')
+            self.assertEqual(b'0.697', rv.data)
+        def test_divfrac(self):
+            rv =  self.app.get('/div?A=2/3&B=3/3')
+            self.assertEqual(b'0.667', rv.data)
+        def test_divneg(self):
+            rv =  self.app.get('/div?A=2.3&B=-3.3')
+            self.assertEqual(b'-0.697', rv.data)
+        def test_zerodiv(self):
+            rv = self.app.get('/div?A=1/0&B=1')
+            self.assertEqual(b'None',rv.data)
+
 if __name__ == '__main__':
     unittest.main()
